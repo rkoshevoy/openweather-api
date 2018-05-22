@@ -1,0 +1,22 @@
+.content {
+  min-height: calc(100vh - 44px);
+}
+
+.header {
+  padding: 30px 0;
+  margin-bottom: 30px;
+  background-color: #007bff;
+
+  h2 {
+    color: #fff;
+  }
+}
+
+.show-weather {
+  margin-top: 40px;
+}
+
+.footer {
+  padding: 10px 0;
+  background-color: #999;
+}

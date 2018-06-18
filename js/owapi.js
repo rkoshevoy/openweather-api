@@ -42,9 +42,6 @@ $(document).ready(function(){
       dataType: 'jsonp',
       success: function(data){
         var widget = show(data);
-
-        $('#showWeather').html(widget);
-        $('#city').val('');
       }
     });
   }

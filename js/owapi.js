@@ -140,33 +140,32 @@ function showWeeklyWeather(data) {
   var weeklyWeatherCityInfo = '<p><strong>Weekly weather in ' + data.city.name + ', ' + data.city.country + '</strong></p>';
 
   for (var i = 0; i < data.list.length; i++) {
-    var weeklyWeatherDataItem = '<div class="weather-tab"><p><img src="//openweathermap.org/img/w/' + data.list[i].weather[0].icon + '.png">' + parseInt(data.list[i].main.temp) + '°' +
+    var weeklyWeatherDataItem = '<div class="weather-item"><div class="weather-item-main"><p><img src="//openweathermap.org/img/w/' + data.list[i].weather[0].icon + '.png">' + parseInt(data.list[i].main.temp) + '°' +
       '</p>' +
       '<p>' +
       '<p>' + currentTime(data.list[i].dt_txt) + '</p>' +
-      '</p></div>'
-      // '<table>' +
-      // '<tr>' +
-      // '<td>Cloudiness</td>' +
-      // '<td>' + data.list[i].weather[0].main + '</td>' +
-      // '</tr>' +
-      // '<tr>' +
-      // '<td>Wind speed</td>' +
-      // '<td>' + data.list[i].wind.speed + ' m/s</td>' +
-      // '</tr>' +
-      // '<tr>' +
-      // '<td>Pressure</td>' +
-      // '<td>' + data.list[i].main.pressure + ' hpa</td>' +
-      // '</tr>' +
-      // '<tr>' +
-      // '<td>Humidity</td>' +
-      // '<td>' + data.list[i].main.humidity + '%</td>' +
-      // '</tr>' +
-      // '<tr>' +
-      // '<td>Humidity</td>' +
-      // '<td>' + data.list[i].main.humidity + '%</td>' +
-      // '</tr>' +
-      // '</table>';
+      '</p></div>' +
+      '<div class="weather-item-details">' +
+      '<table>' +
+      '<tr>' +
+      '<td>Cloudiness</td>' +
+      '<td>' + data.list[i].weather[0].main + '</td>' +
+      '</tr>' +
+      '<tr>' +
+      '<td>Wind speed</td>' +
+      '<td>' + data.list[i].wind.speed + ' m/s</td>' +
+      '</tr>' +
+      '<tr>' +
+      '<td>Pressure</td>' +
+      '<td>' + data.list[i].main.pressure + ' hpa</td>' +
+      '</tr>' +
+      '<tr>' +
+      '<td>Humidity</td>' +
+      '<td>' + data.list[i].main.humidity + '%</td>' +
+      '</tr>' +
+      '</table>';
+      '</div>'
+      '</div>'
 
       $('#showWeeklyWeather').html($('#showWeeklyWeather').html() + weeklyWeatherDataItem);
   }

@@ -1,5 +1,5 @@
-$(document).ready(function(){
-  $('#submitButton').click(function(e){
+$(document).ready(function() {
+  $('#getWeather').click(function(e) {
     e.preventDefault();
 
     var city = $('#city').val();
@@ -10,17 +10,16 @@ $(document).ready(function(){
 
       $.ajax({
         url: 'https://api.openweathermap.org/data/2.5/weather?q=' + city +
-        '&units=metric' +
-        '&APPID=8eb3e1f5948dfaa9255d77de0dc82b42',
+          '&units=metric' +
+          '&APPID=8eb3e1f5948dfaa9255d77de0dc82b42',
         type: 'GET',
         dataType: 'jsonp',
-        success: function(data){
-          var widget = show(data);
-
+        success: function(data) {
+          var widget = showCurrentWeather(data);
           $('#showWeather').html(widget);
           $('#city').val('');
         },
-        error: function(){
+        error: function() {
           alert('Wrong city name. You must enter name in english')
         }
       });
@@ -31,18 +30,17 @@ $(document).ready(function(){
   })
 
   function getCoordinates(position) {
-    var latitude  = position.coords.latitude;
+    var latitude = position.coords.latitude;
     var longitude = position.coords.longitude;
 
     $.ajax({
       url: 'https://api.openweathermap.org/data/2.5/weather?lat=' + latitude + '&lon=' + longitude +
-      '&units=metric' +
-      '&APPID=8eb3e1f5948dfaa9255d77de0dc82b42',
+        '&units=metric' +
+        '&APPID=8eb3e1f5948dfaa9255d77de0dc82b42',
       type: 'GET',
       dataType: 'jsonp',
-      success: function(data){
-        var widget = show(data);
-
+      success: function(data) {
+        var widget = showCurrentWeather(data);
         $('#showWeather').html(widget);
       }
     });
@@ -51,12 +49,46 @@ $(document).ready(function(){
   navigator.geolocation.getCurrentPosition(getCoordinates);
 });
 
-function show(data) {
-  return '<p><strong>Weather in ' + data.name + '</strong></p>' +
+function showCurrentWeather(data) {
 
-        '<p><img src="//openweathermap.org/img/w/' + data.weather[0].icon +'.png">' + '</p>' +
-        '<p>Temperature: ' + parseInt(data.main.temp) + '°</p>' +
-        '<p>Pressure: ' + data.main.pressure + ' Pa</p>'+
-        '<p>Humidity: ' + data.main.humidity + '%</p>'+
-        '<p>Wind speed: ' + data.wind.speed + ' kph</p>'
+  function timeFormatting(time) {
+    var date = new Date(time * 1000);
+    var hours = date.getHours();
+    var minutes = "0" + date.getMinutes();
+    var seconds = "0" + date.getSeconds();
+    var formattedTime = hours + ':' + minutes.substr(-2) + ':' + seconds.substr(-2);
+
+    return formattedTime;
+  };
+
+  return '<p><strong>Weather in ' + data.name + ', ' + data.sys.country + '</strong></p>' +
+    '<p><img src="//openweathermap.org/img/w/' + data.weather[0].icon + '.png">' + parseInt(data.main.temp) + '°' +
+    '</p>' +
+    '<tr>' +
+    '<table>' +
+    '<tr>' +
+    '<td>Cloudiness</td>' +
+    '<td>' + data.weather[0].main + '</td>' +
+    '</tr>' +
+    '<tr>' +
+    '<td>Wind speed</td>' +
+    '<td>' + data.wind.speed + ' m/s</td>' +
+    '</tr>' +
+    '<tr>' +
+    '<td>Pressure</td>' +
+    '<td>' + data.main.pressure + ' hpa</td>' +
+    '</tr>' +
+    '<tr>' +
+    '<td>Humidity</td>' +
+    '<td>' + data.main.humidity + '%</td>' +
+    '</tr>' +
+    '<tr>' +
+    '<td>Sunrise</td>' +
+    '<td>' + timeFormatting(data.sys.sunrise) + '</td>' +
+    '</tr>' +
+    '<tr>' +
+    '<td>Sunset</td>' +
+    '<td>' + timeFormatting(data.sys.sunset) + '</td>' +
+    '</tr>' +
+    '</table>'
 };

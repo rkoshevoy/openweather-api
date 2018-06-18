@@ -1,10 +1,17 @@
 $(document).ready(function() {
+
   $('#getWeather').click(function(e) {
     e.preventDefault();
+
+    $('.weather-loading').addClass('weather-loading-visible');
 
     var city = $('#city').val();
 
     if (city != '') {
+
+      setTimeout(function(){
+        $('#showWeeklyWeather').html('');
+      }, 100);
 
       $('#error').html('');
 
@@ -33,6 +40,7 @@ $(document).ready(function() {
         success: function(data) {
           var weeklyWeatherWidget = showWeeklyWeather(data);
           $('#showWeeklyWeather').html(weeklyWeatherWidget);
+          $('.weather-loading').removeClass('weather-loading-visible');
         }
       });
 
@@ -66,6 +74,7 @@ $(document).ready(function() {
       success: function(data) {
         var weeklyWeatherWidget = showWeeklyWeather(data);
         $('#showWeeklyWeather').html(weeklyWeatherWidget);
+        $('.weather-loading').removeClass('weather-loading-visible');
       }
     });
   }
@@ -121,42 +130,48 @@ function showCurrentWeather(data) {
 
 function showWeeklyWeather(data) {
 
+  function currentTime(date) {
+
+    date = date.substr(0, date.length - 3);
+
+    return date;
+  };
+
   var weeklyWeatherCityInfo = '<p><strong>Weekly weather in ' + data.city.name + ', ' + data.city.country + '</strong></p>';
-  var weeklyWeatherData = [];
 
   for (var i = 0; i < data.list.length; i++) {
-    var weeklyWeatherDataItem = '<p><img src="//openweathermap.org/img/w/' + data.list[i].weather[0].icon + '.png">' + parseInt(data.list[i].main.temp) + '°' +
+    var weeklyWeatherDataItem = '<div class="weather-tab"><p><img src="//openweathermap.org/img/w/' + data.list[i].weather[0].icon + '.png">' + parseInt(data.list[i].main.temp) + '°' +
       '</p>' +
-      '<tr>' +
-      '<table>' +
-      '<tr>' +
-      '<td>Cloudiness</td>' +
-      '<td>' + data.list[i].weather[0].main + '</td>' +
-      '</tr>' +
-      '<tr>' +
-      '<td>Wind speed</td>' +
-      '<td>' + data.list[i].wind.speed + ' m/s</td>' +
-      '</tr>' +
-      '<tr>' +
-      '<td>Pressure</td>' +
-      '<td>' + data.list[i].main.pressure + ' hpa</td>' +
-      '</tr>' +
-      '<tr>' +
-      '<td>Humidity</td>' +
-      '<td>' + data.list[i].main.humidity + '%</td>' +
-      '</tr>' +
-      '<tr>' +
-      '<td>Humidity</td>' +
-      '<td>' + data.list[i].main.humidity + '%</td>' +
-      '</tr>' +
-      '<tr>' +
-      '<td>Time</td>' +
-      '<td>' + data.list[i].dt_txt + '</td>' +
-      '</tr>' +
-      '</table>';
+      '<p>' +
+      '<p>' + currentTime(data.list[i].dt_txt) + '</p>' +
+      '</p></div>'
+      // '<table>' +
+      // '<tr>' +
+      // '<td>Cloudiness</td>' +
+      // '<td>' + data.list[i].weather[0].main + '</td>' +
+      // '</tr>' +
+      // '<tr>' +
+      // '<td>Wind speed</td>' +
+      // '<td>' + data.list[i].wind.speed + ' m/s</td>' +
+      // '</tr>' +
+      // '<tr>' +
+      // '<td>Pressure</td>' +
+      // '<td>' + data.list[i].main.pressure + ' hpa</td>' +
+      // '</tr>' +
+      // '<tr>' +
+      // '<td>Humidity</td>' +
+      // '<td>' + data.list[i].main.humidity + '%</td>' +
+      // '</tr>' +
+      // '<tr>' +
+      // '<td>Humidity</td>' +
+      // '<td>' + data.list[i].main.humidity + '%</td>' +
+      // '</tr>' +
+      // '</table>';
 
-    weeklyWeatherData.push(weeklyWeatherDataItem);
+      $('#showWeeklyWeather').html($('#showWeeklyWeather').html() + weeklyWeatherDataItem);
   }
 
-  return weeklyWeatherCityInfo + weeklyWeatherData;
+  var weeklyWeather = weeklyWeatherCityInfo + $('#showWeeklyWeather').html();
+
+  return weeklyWeather;
 };

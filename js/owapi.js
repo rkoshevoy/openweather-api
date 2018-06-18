@@ -94,7 +94,7 @@ function timeFormatting(time) {
 
 function showCurrentWeather(data) {
 
-  var currentWeatherData = '<p><strong>Current weather in ' + data.name + ', ' + data.sys.country + '</strong></p>' +
+  var currentWeatherData = '<p><strong>Weather in ' + data.name + ', ' + data.sys.country + '</strong></p>' +
     '<p><img src="//openweathermap.org/img/w/' + data.weather[0].icon + '.png">' + parseInt(data.main.temp) + '°' +
     '</p>' +
     '<tr>' +

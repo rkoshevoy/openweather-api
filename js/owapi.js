@@ -42,15 +42,13 @@ $(document).ready(function(){
       dataType: 'jsonp',
       success: function(data){
         var widget = show(data);
+
+        $('#showWeather').html(widget);
       }
     });
   }
 
-  function errorGetCoordinates() {
-    output.innerHTML = "Unable to retrieve your location";
-  }
-
-  navigator.geolocation.getCurrentPosition(getCoordinates, errorGetCoordinates);
+  navigator.geolocation.getCurrentPosition(getCoordinates);
 });
 
 function show(data) {

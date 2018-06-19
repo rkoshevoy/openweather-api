@@ -1,3 +1,7 @@
+body {
+  min-width: 320px;
+}
+
 .content {
   min-height: calc(100vh - 74px);
 }
@@ -7,8 +11,16 @@
   margin-bottom: 30px;
   background-color: #007bff;
 
+  @media (max-width: 991px) {
+    padding: 10px 0;
+  }
+
   h2 {
     color: #fff;
+
+    @media (max-width: 991px) {
+      font-size: 24px;
+    }
   }
 }
 
@@ -42,6 +54,10 @@
   font-weight: bold;
   font-size: 20px;
   color: #404040;
+
+  @media (max-width: 991px) {
+    text-align: center;
+  }
 }
 
 .temp {
@@ -49,6 +65,10 @@
 
   img {
     margin-right: 10px;
+  }
+
+  @media (max-width: 991px) {
+    text-align: center;
   }
 }
 

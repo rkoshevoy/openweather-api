@@ -19,7 +19,7 @@
 
 .weather-loading {
   position: absolute;
-  z-index: 1;
+  z-index: 10;
   top: 0;
   left: 0;
   width: 100%;
@@ -38,6 +38,20 @@
   }
 }
 
+.city-name {
+  font-weight: bold;
+  font-size: 20px;
+  color: #404040;
+}
+
+.temp {
+  font-size: 24px;
+
+  img {
+    margin-right: 10px;
+  }
+}
+
 .show-weather {
   margin-top: 40px;
   text-align: left;
@@ -45,16 +59,18 @@
 
 .show-current-weather {
 
-  img {
-    margin-right: 10px;
-  }
-
   table {
     width: 100%;
     border: 1px solid #ccc;
 
     tr {
       border-bottom: 1px solid #ccc;
+
+      &:nth-child(odd) {
+        td {
+          background-color: #f1f1f1;
+        }
+      }
     }
 
     td {
@@ -70,53 +86,17 @@
 .weather-item {
   position: relative;
   display: inline-block;
-  width: 25%;
   padding: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 5px;
   text-align: center;
 
-  &:last-child,
-  &:nth-last-child(2),
-  &:nth-last-child(3),
-  &:nth-last-child(4) {
-    .weather-item-details {
-      top: auto;
-      bottom: calc(100% + 10px);
-
-      &::before {
-        top: auto;
-        bottom: -10px;
-        box-shadow: 3px 3px 03px rgba(#000, .1);
-      }
-    }
-  }
-
   .weather-item-details {
-    position: absolute;
-    z-index: 1;
-    left: 50%;
-    top: 100%;
-    transform: translateX(-50%);
-    width: 250px;
     padding: 10px;
-    border-radius: 5px;
     background-color: #fff;
-    box-shadow: 0 0 10px rgba(#000, .5);
     text-align: left;
-    opacity: 0;
-    visibility: hidden;
+    font-size: 12px;
     transition: .3s;
-
-    &::before {
-      content: '';
-      position: absolute;
-      left: 50%;
-      top: -10px;
-      transform: translateX(-50%) rotate(45deg);
-      width: 20px;
-      height: 20px;
-      background-color: #fff;
-      box-shadow: -3px -3px 3px rgba(#000, .1);
-    }
 
     table {
       width: 100%;
@@ -127,11 +107,38 @@
       padding: 5px;
     }
   }
+}
+
+.swiper-button {
+  background-image: none;
+
+  &::before {
+    content: '';
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    border: {
+      top: 2px solid #f1f1f1;
+      right: 2px solid #f1f1f1;
+    }
+    transition: .3s;
+  }
 
   &:hover {
-    .weather-item-details {
-      opacity: 1;
-      visibility: visible;
+    &::before {
+      border-color: #ccc;
+    }
+  }
+
+  &.swiper-button-next {
+    &::before {
+      transform: rotate(45deg);
+    }
+  }
+
+  &.swiper-button-prev {
+    &::before {
+      transform: rotate(-135deg);
     }
   }
 }

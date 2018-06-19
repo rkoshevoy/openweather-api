@@ -9,8 +9,9 @@ $(document).ready(function() {
 
     if (city != '') {
 
-      setTimeout(function(){
-        $('#showWeeklyWeather').html('');
+      setTimeout(function() {
+        $('#showWeeklyWeather .city-name').remove();
+        $('#showWeeklyWeather .swiper-wrapper').html('');
       }, 100);
 
       $('#error').html('');
@@ -27,7 +28,7 @@ $(document).ready(function() {
           $('#city').val('');
         },
         error: function() {
-          alert('Wrong city name. You must enter name in english')
+          alert('Wrong city name!')
         }
       });
 
@@ -41,6 +42,26 @@ $(document).ready(function() {
           var weeklyWeatherWidget = showWeeklyWeather(data);
           $('#showWeeklyWeather').html(weeklyWeatherWidget);
           $('.weather-loading').removeClass('weather-loading-visible');
+
+          var mySwiper = new Swiper('.swiper-container', {
+            slidesPerView: 4,
+            spaceBetween: 20,
+            navigation: {
+              prevEl: '.swiper-button-prev',
+              nextEl: '.swiper-button-next'
+            },
+            breakpoints: {
+              1199: {
+                slidesPerView: 3
+              },
+              767: {
+                slidesPerView: 2
+              },
+              400: {
+                slidesPerView: 1
+              }
+            }
+          })
         }
       });
 
@@ -75,6 +96,26 @@ $(document).ready(function() {
         var weeklyWeatherWidget = showWeeklyWeather(data);
         $('#showWeeklyWeather').html(weeklyWeatherWidget);
         $('.weather-loading').removeClass('weather-loading-visible');
+
+        var mySwiper = new Swiper('.swiper-container', {
+          slidesPerView: 4,
+          spaceBetween: 20,
+          navigation: {
+            prevEl: '.swiper-button-prev',
+            nextEl: '.swiper-button-next'
+          },
+          breakpoints: {
+            1199: {
+              slidesPerView: 3
+            },
+            767: {
+              slidesPerView: 2
+            },
+            400: {
+              slidesPerView: 1
+            }
+          }
+        })
       }
     });
   }
@@ -94,10 +135,8 @@ function timeFormatting(time) {
 
 function showCurrentWeather(data) {
 
-  var currentWeatherData = '<p><strong>Weather in ' + data.name + ', ' + data.sys.country + '</strong></p>' +
-    '<p><img src="//openweathermap.org/img/w/' + data.weather[0].icon + '.png">' + parseInt(data.main.temp) + '°' +
-    '</p>' +
-    '<tr>' +
+  var currentWeatherData = '<p class="city-name">Weather in ' + data.name + ', ' + data.sys.country + '</p>' +
+    '<p class="temp"><img src="//openweathermap.org/img/w/' + data.weather[0].icon + '.png">' + parseInt(data.main.temp) + '°</p>' +
     '<table>' +
     '<tr>' +
     '<td>Cloudiness</td>' +
@@ -131,20 +170,18 @@ function showCurrentWeather(data) {
 function showWeeklyWeather(data) {
 
   function currentTime(date) {
-
     date = date.substr(0, date.length - 3);
-
     return date;
   };
 
-  var weeklyWeatherCityInfo = '<p><strong>Weekly weather in ' + data.city.name + ', ' + data.city.country + '</strong></p>';
+  var weeklyWeatherCityInfo = '<p class="city-name">Weekly weather in ' + data.city.name + ', ' + data.city.country + '</p>';
 
   for (var i = 0; i < data.list.length; i++) {
-    var weeklyWeatherDataItem = '<div class="weather-item"><div class="weather-item-main"><p><img src="//openweathermap.org/img/w/' + data.list[i].weather[0].icon + '.png">' + parseInt(data.list[i].main.temp) + '°' +
-      '</p>' +
-      '<p>' +
+    var weeklyWeatherDataItem = '<div class="weather-item swiper-slide">' +
+      '<div class="weather-item-main">' +
       '<p>' + currentTime(data.list[i].dt_txt) + '</p>' +
-      '</p></div>' +
+      '<p class="temp"><img src="//openweathermap.org/img/w/' + data.list[i].weather[0].icon + '.png">' + parseInt(data.list[i].main.temp) + '°</p>' +
+      '</div>' +
       '<div class="weather-item-details">' +
       '<table>' +
       '<tr>' +
@@ -163,11 +200,11 @@ function showWeeklyWeather(data) {
       '<td>Humidity</td>' +
       '<td>' + data.list[i].main.humidity + '%</td>' +
       '</tr>' +
-      '</table>';
-      '</div>'
+      '</table>' +
+      '</div>' +
       '</div>'
 
-      $('#showWeeklyWeather').html($('#showWeeklyWeather').html() + weeklyWeatherDataItem);
+    $('#showWeeklyWeather .swiper-wrapper').html($('#showWeeklyWeather .swiper-wrapper').html() + weeklyWeatherDataItem);
   }
 
   var weeklyWeather = weeklyWeatherCityInfo + $('#showWeeklyWeather').html();
